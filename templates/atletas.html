@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %}
+<h1>Gestión de Atletas</h1>
+
+<form id="atleta-form">
+  <input type="text" id="nombre" placeholder="Nombre" required />
+  <input type="text" id="pais" placeholder="País" required />
+  <input type="date" id="fecha_nacimiento" required />
+  <select id="genero" required>
+    <option value="">Selecciona género</option>
+    <option value="Masculino">Masculino</option>
+    <option value="Femenino">Femenino</option>
+  </select>
+  <button type="submit">Agregar Atleta</button>
+</form>
+
+<table id="atletas-table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>País</th>
+      <th>Fecha de Nacimiento</th>
+      <th>Género</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for atleta in atletas %}
+    <tr>
+      <td>{{ atleta.nombre }}</td>
+      <td>{{ atleta.pais }}</td>
+      <td>{{ atleta.fecha_nacimiento.strftime('%Y-%m-%d') }}</td>
+      <td>{{ atleta.genero }}</td>
+      <td>
+        <button onclick="editarAtleta({{ atleta.id }})">Editar</button>
+        <button onclick="eliminarAtleta({{ atleta.id }})">Eliminar</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

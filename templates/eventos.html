@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block content %}
+<h1>Gestión de Eventos Olímpicos</h1>
+
+<form id="evento-form">
+  <input type="text" id="nombre" placeholder="Nombre del evento" required />
+  <input type="text" id="deporte" placeholder="Deporte" required />
+  <input type="datetime-local" id="fecha" required />
+  <input type="text" id="lugar" placeholder="Lugar" required />
+  <select id="atleta_id" required>
+    <option value="">Selecciona un atleta</option>
+    {% for atleta in atletas %}
+    <option value="{{ atleta.id }}">
+      {{ atleta.nombre }} ({{ atleta.pais }})
+    </option>
+    {% endfor %}
+  </select>
+  <button type="submit">Agregar Evento</button>
+</form>
+
+<table id="eventos-table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Deporte</th>
+      <th>Fecha</th>
+      <th>Lugar</th>
+      <th>Atleta</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for evento in eventos %}
+    <tr>
+      <td>{{ evento.nombre }}</td>
+      <td>{{ evento.deporte }}</td>
+      <td>{{ evento.fecha.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td>{{ evento.lugar }}</td>
+      <td>{{ evento.atleta.nombre }}</td>
+      <td>
+        <button onclick="editarEvento({{ evento.id }})">Editar</button>
+        <button onclick="eliminarEvento({{ evento.id }})">Eliminar</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
