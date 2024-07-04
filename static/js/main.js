@@ -27,7 +27,6 @@ function agregarAtleta(event) {
 
 // Función para editar un atleta
 function editarAtleta(id) {
-  // Aquí implementarías la lógica para editar un atleta
   console.log("Editar atleta con id:", id);
 }
 
@@ -48,7 +47,57 @@ function eliminarAtleta(id) {
   }
 }
 
+function agregarEvento(event) {
+  event.preventDefault();
+  const formData = {
+    nombre: document.getElementById("nombre").value,
+    deporte: document.getElementById("deporte").value,
+    fecha: document.getElementById("fecha").value,
+    lugar: document.getElementById("lugar").value,
+  };
+
+  fetch("/eventos", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
+      location.reload();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+function eliminarEvento(id) {
+  if (confirm("¿Estás seguro de que quieres eliminar este evento?")) {
+    fetch(`/eventos/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+}
+
 // Agregar evento al formulario
-document
-  .getElementById("atleta-form")
-  .addEventListener("submit", agregarAtleta);
+if (document.getElementById("atleta-form")) {
+  document
+    .getElementById("atleta-form")
+    .addEventListener("submit", agregarAtleta);
+}
+
+if (document.getElementById("evento-form")) {
+  document
+    .getElementById("evento-form")
+    .addEventListener("submit", agregarEvento);
+}

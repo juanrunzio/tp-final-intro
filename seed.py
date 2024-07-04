@@ -9,19 +9,18 @@ def seed_database():
         db.create_all()
 
         # Crea algunos atletas de ejemplo
-        atleta1 = Atleta(nombre="Juan Pérez", pais="España", fecha_nacimiento=datetime(1990, 5, 15), genero="Masculino")
-        atleta2 = Atleta(nombre="Maria García", pais="México", fecha_nacimiento=datetime(1992, 8, 22), genero="Femenino")
-        atleta3 = Atleta(nombre="John Smith", pais="Estados Unidos", fecha_nacimiento=datetime(1988, 3, 10), genero="Masculino")
+        evento1 = Evento(nombre="100m lisos", deporte="Atletismo", fecha=datetime(2023, 7, 24), lugar="Estadio Olímpico")
+        evento2 = Evento(nombre="Maratón", deporte="Atletismo", fecha=datetime(2023, 8, 5), lugar="Ciudad")
 
-        db.session.add_all([atleta1, atleta2, atleta3])
+        db.session.add_all([evento1, evento2])
         db.session.commit()
 
         # Crea algunos eventos de ejemplo
-        evento1 = Evento(nombre="100m planos", deporte="Atletismo", fecha=datetime.now() + timedelta(days=10), lugar="Estadio Olímpico", atleta_id=atleta1.id)
-        evento2 = Evento(nombre="Salto de longitud", deporte="Atletismo", fecha=datetime.now() + timedelta(days=12), lugar="Estadio Olímpico", atleta_id=atleta2.id)
-        evento3 = Evento(nombre="Lanzamiento de jabalina", deporte="Atletismo", fecha=datetime.now() + timedelta(days=15), lugar="Estadio Olímpico", atleta_id=atleta3.id)
+        atleta1 = Atleta(nombre="Juan Pérez", pais="España", fecha_nacimiento=datetime(1990, 5, 14), genero="Masculino", eventos=evento1)
+        atleta2 = Atleta(nombre="Ana Gómez", pais="México", fecha_nacimiento=datetime(1988, 11, 23), genero="Femenino", eventos=evento2)
+        atleta3 = Atleta(nombre="Pedro Rodríguez", pais="Argentina", fecha_nacimiento=datetime(1995, 3, 30), genero="Masculino", eventos=evento1)
 
-        db.session.add_all([evento1, evento2, evento3])
+        db.session.add_all([atleta1, atleta2, atleta3])
         db.session.commit()
 
         print("Base de datos poblada con éxito!")
