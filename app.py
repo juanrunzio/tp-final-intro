@@ -99,10 +99,10 @@ def evento(id):
 
     elif request.method == 'PUT':
         data = request.json
-        evento.nombre = data['nombre']
-        evento.deporte = data['deporte']
-        evento.fecha = datetime.strptime(data['fecha'], '%Y-%m-%d')
-        evento.lugar = data['lugar']
+        evento.nombre = data['nombre'],
+        evento.deporte = data['deporte'],
+        evento.fecha = datetime.strptime(data['fecha'], '%Y-%m-%dT%H:%M'),
+        evento.lugar = data['lugar'],
         db.session.commit()
         return jsonify({'message': 'Evento actualizado exitosamente'})
 
