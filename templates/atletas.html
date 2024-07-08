@@ -10,6 +10,12 @@
     <option value="Masculino">Masculino</option>
     <option value="Femenino">Femenino</option>
   </select>
+  <select id="evento" required>
+    <option value="">Selecciona evento</option>
+    {% for evento in eventos %}
+    <option value="{{ evento.id }}">{{ evento.nombre }}</option>
+    {% endfor %}
+  </select>
   <button type="submit">Agregar Atleta</button>
 </form>
 
@@ -31,7 +37,9 @@
       <td>{{ atleta.fecha_nacimiento.strftime('%Y-%m-%d') }}</td>
       <td>{{ atleta.genero }}</td>
       <td>
-        <button onclick="editarAtleta({{ atleta.id }})">Editar</button>
+        <button onclick="abrirModalEditarAtleta({{ atleta.id }})">
+          Editar
+        </button>
         <button onclick="eliminarAtleta({{ atleta.id }})">Eliminar</button>
       </td>
     </tr>
@@ -44,7 +52,7 @@
   <div>
     <h2>Editar Atleta</h2>
     <form id="editar-atleta-form">
-      <input type="hidden" id="editar-id" />
+      <input type="hidden" id="editar-id-atleta" />
       <input type="text" id="editar-nombre" placeholder="Nombre" required />
       <input type="text" id="editar-pais" placeholder="País" required />
       <input type="date" id="editar-fecha_nacimiento" required />
@@ -54,9 +62,10 @@
         <option value="Femenino">Femenino</option>
       </select>
       <button type="submit">Guardar cambios</button>
-      <button type="button" onclick="cerrarModal()">Cancelar</button>
+      <button type="button" onclick="cerrarModalEditarAtleta()">
+        Cancelar
+      </button>
     </form>
   </div>
 </div>
-<script src="/static/js/main.js"></script>
 {% endblock %}

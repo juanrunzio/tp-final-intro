@@ -25,14 +25,16 @@ def atletas():
             pais=data['pais'],
             fecha_nacimiento=datetime.strptime(
                 data['fecha_nacimiento'], '%Y-%m-%d'),
-            genero=data['genero']
+            genero=data['genero'],
+            evento_id=data['evento_id']
         )
         db.session.add(nuevo_atleta)
         db.session.commit()
         return jsonify({'message': 'Atleta creado exitosamente'}), 201
 
     atletas = Atleta.query.all()
-    return render_template('atletas.html', atletas=atletas)
+    eventos = Evento.query.all()
+    return render_template('atletas.html', atletas=atletas, eventos=eventos)
 
 
 @app.route('/atletas/<int:id>', methods=['GET', 'PUT', 'DELETE'])
@@ -71,7 +73,7 @@ def eventos():
         nuevo_evento = Evento(
             nombre=data['nombre'],
             deporte=data['deporte'],
-            fecha=datetime.strptime(data['fecha'], '%Y-%m-%dT%H:%M'),
+            fecha=datetime.strptime(data['fecha'], '%Y-%m-%d'),
             lugar=data['lugar'],
         )
         db.session.add(nuevo_evento)
@@ -84,9 +86,7 @@ def eventos():
 
 @app.route('/eventos/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def evento(id):
-    evento = Evento.query.get(id)
-    if evento is None:
-        return jsonify({'message': 'Evento no encontrado'}), 404
+    evento = Evento.query.get_or_404(id)
 
     if request.method == 'GET':
         return jsonify({
@@ -101,7 +101,7 @@ def evento(id):
         data = request.json
         evento.nombre = data['nombre'],
         evento.deporte = data['deporte'],
-        evento.fecha = datetime.strptime(data['fecha'], '%Y-%m-%dT%H:%M'),
+        evento.fecha = datetime.strptime(data['fecha'], '%Y-%m-%d'),
         evento.lugar = data['lugar'],
         db.session.commit()
         return jsonify({'message': 'Evento actualizado exitosamente'})

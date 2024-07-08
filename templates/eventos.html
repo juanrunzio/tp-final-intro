@@ -4,7 +4,7 @@
 <form id="evento-form">
   <input type="text" id="nombre" placeholder="Nombre del evento" required />
   <input type="text" id="deporte" placeholder="Deporte" required />
-  <input type="datetime-local" id="fecha" required />
+  <input type="date" id="fecha" required />
   <input type="text" id="lugar" placeholder="Lugar" required />
   <button type="submit">Agregar Evento</button>
 </form>
@@ -24,14 +24,33 @@
     <tr>
       <td>{{ evento.nombre }}</td>
       <td>{{ evento.deporte }}</td>
-      <td>{{ evento.fecha.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td>{{ evento.fecha.strftime('%Y-%m-%d ') }}</td>
       <td>{{ evento.lugar }}</td>
       <td>
-        <button onclick="editarEvento({{ evento.id }})">Editar</button>
+        <button onclick="abrirModalEditarEvento({{ evento.id }})">
+          Editar
+        </button>
         <button onclick="eliminarEvento({{ evento.id }})">Eliminar</button>
       </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+
+<div id="modal-editar-evento" style="display: none">
+  <div>
+    <h2>Editar Evento</h2>
+    <form id="editar-evento-form">
+      <input type="hidden" id="editar-id-evento" />
+      <input type="text" id="editar-nombre" placeholder="Nombre" required />
+      <input type="text" id="editar-deporte" placeholder="Deporte" required />
+      <input type="date" id="editar-fecha" required />
+      <input type="text" id="editar-lugar" placeholder="Lugar" required />
+      <button type="submit">Guardar cambios</button>
+      <button type="button" onclick="cerrarModalEditarEvento()">
+        Cancelar
+      </button>
+    </form>
+  </div>
+</div>
 {% endblock %}

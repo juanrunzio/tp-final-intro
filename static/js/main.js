@@ -5,6 +5,7 @@ function agregarAtleta(event) {
     pais: document.getElementById("pais").value,
     fecha_nacimiento: document.getElementById("fecha_nacimiento").value,
     genero: document.getElementById("genero").value,
+    evento_id: document.getElementById("evento").value,
   };
 
   fetch("/atletas", {
@@ -20,26 +21,36 @@ function agregarAtleta(event) {
       location.reload();
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.log("Error:", error);
     });
 }
 
-function editarAtleta(id) {
+function editarAtleta(event) {
+  event.preventDefault();
+
   const formData = {
-    nombre: document.getElementById("nombre").value,
-    pais: document.getElementById("pais").value,
-    fecha_nacimiento: document.getElementById("fecha_nacimiento").value,
-    genero: document.getElementById("genero").value,
+    id: document.getElementById("editar-id-atleta").value,
+    nombre: document.getElementById("editar-nombre").value,
+    pais: document.getElementById("editar-pais").value,
+    fecha_nacimiento: document.getElementById("editar-fecha_nacimiento").value,
+    genero: document.getElementById("editar-genero").value,
   };
 
-  fetch(`/atletas/${id}`, {
+  console.log(formData);
+
+  fetch(`/atletas/${formData.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(formData),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
     .then((data) => {
       console.log("Success:", data);
       location.reload();
@@ -60,7 +71,7 @@ function eliminarAtleta(id) {
         location.reload();
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.log("Error:", error);
       });
   }
 }
@@ -87,7 +98,7 @@ function agregarEvento(event) {
       location.reload();
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.log("Error:", error);
     });
 }
 
@@ -102,27 +113,36 @@ function eliminarEvento(id) {
         location.reload();
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.log("Error:", error);
       });
   }
 }
 
-function editarEvento(id) {
+function editarEvento(event) {
+  event.preventDefault();
   const formData = {
-    nombre: document.getElementById("nombre").value,
-    deporte: document.getElementById("deporte").value,
-    fecha: document.getElementById("fecha").value,
-    lugar: document.getElementById("lugar").value,
+    id: document.getElementById("editar-id-evento").value,
+    nombre: document.getElementById("editar-nombre").value,
+    deporte: document.getElementById("editar-deporte").value,
+    fecha: document.getElementById("editar-fecha").value,
+    lugar: document.getElementById("editar-lugar").value,
   };
 
-  fetch(`/eventos/${id}`, {
+  console.log(formData);
+
+  fetch(`/eventos/${formData.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(formData),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
     .then((data) => {
       console.log("Success:", data);
       location.reload();
@@ -143,50 +163,53 @@ if (document.getElementById("evento-form")) {
     .getElementById("evento-form")
     .addEventListener("submit", agregarEvento);
 }
+function abrirModalEditarAtleta(id) {
+  fetch(`/atletas/${id}`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      document.getElementById("editar-id-atleta").value = data.id;
+      document.getElementById("editar-nombre").value = data.nombre;
+      document.getElementById("editar-pais").value = data.pais;
+      document.getElementById("editar-fecha_nacimiento").value =
+        data.fecha_nacimiento;
+      document.getElementById("editar-genero").value = data.genero;
+    });
 
-document.addEventListener("DOMContentLoaded", function () {
-  window.editarAtleta = function (id) {
-    fetch(`/atletas/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        document.getElementById("editar-id").value = data.id;
-        document.getElementById("editar-nombre").value = data.nombre;
-        document.getElementById("editar-pais").value = data.pais;
-        document.getElementById("editar-fecha_nacimiento").value =
-          data.fecha_nacimiento;
-        document.getElementById("editar-genero").value = data.genero;
-        document.getElementById("modal-editar-atleta").style.display = "block";
-      });
-  };
+  document.getElementById("modal-editar-atleta").style.display = "block";
+}
 
-  window.cerrarModal = function () {
-    document.getElementById("modal-editar-atleta").style.display = "none";
-  };
+function cerrarModalEditarAtleta() {
+  document.getElementById("modal-editar-atleta").style.display = "none";
+}
 
+function abrirModalEditarEvento(id) {
+  fetch(`/eventos/${id}`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      document.getElementById("editar-id-evento").value = data.id;
+      document.getElementById("editar-nombre").value = data.nombre;
+      document.getElementById("editar-deporte").value = data.deporte;
+      document.getElementById("editar-fecha").value = data.fecha;
+      document.getElementById("editar-lugar").value = data.lugar;
+    });
+
+  document.getElementById("modal-editar-evento").style.display = "block";
+}
+
+function cerrarModalEditarEvento() {
+  document.getElementById("modal-editar-evento").style.display = "none";
+}
+
+if (document.getElementById("modal-editar-atleta")) {
   document
     .getElementById("editar-atleta-form")
-    .addEventListener("submit", function (event) {
-      event.preventDefault();
+    .addEventListener("submit", editarAtleta);
+}
 
-      const id = document.getElementById("editar-id").value;
-      const nombre = document.getElementById("editar-nombre").value;
-      const pais = document.getElementById("editar-pais").value;
-      const fecha_nacimiento = document.getElementById(
-        "editar-fecha_nacimiento"
-      ).value;
-      const genero = document.getElementById("editar-genero").value;
-
-      fetch(`/atletas/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ nombre, pais, fecha_nacimiento, genero }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          alert(data.message);
-          window.location.reload();
-        });
-    });
-});
+if (document.getElementById("modal-editar-evento")) {
+  document
+    .getElementById("editar-evento-form")
+    .addEventListener("submit", editarEvento);
+}
