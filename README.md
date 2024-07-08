@@ -20,6 +20,7 @@ GRANT ALL PRIVILEGES ON SCHEMA public TO miusuario;
 ```bash
 source venv/bin/activate
 pip install -r requirements.txt
+#En arch(hay que forzarlo): `pip install -r requirements.txt --break-system-packages`
 export FLASK_APP=app.py
 #Opcional -> Modo de depuracion para ver errores detallados y tener recarga automática:
 export FLASK_ENV=development
