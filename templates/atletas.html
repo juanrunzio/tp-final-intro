@@ -38,4 +38,25 @@
     {% endfor %}
   </tbody>
 </table>
+
+<!-- Modal -->
+<div id="modal-editar-atleta" style="display: none">
+  <div>
+    <h2>Editar Atleta</h2>
+    <form id="editar-atleta-form">
+      <input type="hidden" id="editar-id" />
+      <input type="text" id="editar-nombre" placeholder="Nombre" required />
+      <input type="text" id="editar-pais" placeholder="País" required />
+      <input type="date" id="editar-fecha_nacimiento" required />
+      <select id="editar-genero" required>
+        <option value="">Selecciona género</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+      </select>
+      <button type="submit">Guardar cambios</button>
+      <button type="button" onclick="cerrarModal()">Cancelar</button>
+    </form>
+  </div>
+</div>
+<script src="/static/js/main.js"></script>
 {% endblock %}

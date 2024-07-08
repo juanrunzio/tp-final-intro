@@ -132,7 +132,6 @@ function editarEvento(id) {
     });
 }
 
-
 if (document.getElementById("atleta-form")) {
   document
     .getElementById("atleta-form")
@@ -144,3 +143,50 @@ if (document.getElementById("evento-form")) {
     .getElementById("evento-form")
     .addEventListener("submit", agregarEvento);
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  window.editarAtleta = function (id) {
+    fetch(`/atletas/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById("editar-id").value = data.id;
+        document.getElementById("editar-nombre").value = data.nombre;
+        document.getElementById("editar-pais").value = data.pais;
+        document.getElementById("editar-fecha_nacimiento").value =
+          data.fecha_nacimiento;
+        document.getElementById("editar-genero").value = data.genero;
+        document.getElementById("modal-editar-atleta").style.display = "block";
+      });
+  };
+
+  window.cerrarModal = function () {
+    document.getElementById("modal-editar-atleta").style.display = "none";
+  };
+
+  document
+    .getElementById("editar-atleta-form")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const id = document.getElementById("editar-id").value;
+      const nombre = document.getElementById("editar-nombre").value;
+      const pais = document.getElementById("editar-pais").value;
+      const fecha_nacimiento = document.getElementById(
+        "editar-fecha_nacimiento"
+      ).value;
+      const genero = document.getElementById("editar-genero").value;
+
+      fetch(`/atletas/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nombre, pais, fecha_nacimiento, genero }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(data.message);
+          window.location.reload();
+        });
+    });
+});
