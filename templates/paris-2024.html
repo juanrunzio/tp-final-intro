@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+<h1>Atletas</h1>
+<div class="card-container">
+  {% for atleta in atletas %}
+  <div class="card">
+    <img src="{{ atleta.imagen }}" />
+    <h3>{{ atleta.nombre }}</h3>
+    <p>País: {{ atleta.pais }}</p>
+  </div>
+  {% endfor %}
+</div>
+
+<h1>Eventos</h1>
+<div class="card-container">
+  {% for evento in eventos %}
+  <div class="card">
+    <h3>{{ evento.nombre }}</h3>
+    <p>Fecha: {{ evento.fecha.strftime('%d-%m-%Y') }}</p>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

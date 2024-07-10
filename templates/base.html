@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Juegos Olímpicos{% endblock %}</title>
-    <link rel="icon" href="../static/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="../static/img/icon.ico" type="image/x-icon" />
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
@@ -15,8 +15,11 @@
       <ul>
         <img src="../static/img/icon.ico" alt="jjoo icon" />
         <li><a href="/">Inicio</a></li>
+        {% if request.path != '/paris-2024' %}
         <li><a href="/atletas">Atletas</a></li>
         <li><a href="/eventos">Eventos</a></li>
+        <li><a href="/paris-2024">Paris 2024</a></li>
+        {% endif %}
       </ul>
     </nav>
 

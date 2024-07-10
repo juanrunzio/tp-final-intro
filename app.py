@@ -110,6 +110,12 @@ def evento(id):
         db.session.delete(evento)
         db.session.commit()
         return jsonify({'message': 'Evento eliminado exitosamente'}), 200
+    
+@app.route('/paris-2024')
+def pagina_oficial():
+    atletas = Atleta.query.all()
+    eventos = Evento.query.all()
+    return render_template('paris-2024.html', atletas=atletas, eventos=eventos)
 
 
 if __name__ == '__main__':
