@@ -26,6 +26,7 @@
       <th>País</th>
       <th>Fecha de Nacimiento</th>
       <th>Género</th>
+      <th>Evento</th>
       <th>Acciones</th>
     </tr>
   </thead>
@@ -36,6 +37,9 @@
       <td>{{ atleta.pais }}</td>
       <td>{{ atleta.fecha_nacimiento.strftime('%Y-%m-%d') }}</td>
       <td>{{ atleta.genero }}</td>
+      {% for evento in eventos %} {% if evento.id == atleta.evento_id %}
+      <td>{{ evento.nombre }}</td>
+      {% endif %} {% endfor %}
       <td>
         <button onclick="abrirModalEditarAtleta({{ atleta.id }})">
           Editar

@@ -9,7 +9,7 @@ class Atleta(db.Model):
     pais = db.Column(db.String(50), nullable=False)
     fecha_nacimiento = db.Column(db.Date, nullable=False)
     genero = db.Column(db.String(10), nullable=False)
-    evento_id = db.Column(db.Integer, db.ForeignKey('evento.id'), nullable=True)  
+    evento_id = db.Column(db.Integer, db.ForeignKey('evento.id'), nullable=False)  
     eventos = db.relationship('Evento', backref='atleta', lazy=True)
 
 class Evento(db.Model):
