@@ -7,17 +7,15 @@ def seed_database():
         # Borra todos los datos existentes
         db.drop_all()
         db.create_all()
-        # Crea el evento de fútbol olímpico
+
+        
         evento_futbol = Evento(nombre="Fútbol masculino", deporte="Fútbol", fecha=datetime(2024, 7, 26), lugar="París")
-       
-        # Crea algunos atletas de ejemplo
         evento1 = Evento(nombre="100m lisos", deporte="Atletismo", fecha=datetime(2023, 7, 24), lugar="Estadio Olímpico")
         evento2 = Evento(nombre="Maratón", deporte="Atletismo", fecha=datetime(2023, 8, 5), lugar="Ciudad")
 
         db.session.add_all([evento1, evento2, evento_futbol])
         db.session.commit()
 
-        # Crea algunos eventos de ejemplo
         atleta1 = Atleta(nombre="Juan Pérez", pais="España", fecha_nacimiento=datetime(1990, 5, 14), genero="Masculino", eventos=evento1)
         atleta2 = Atleta(nombre="Ana Gómez", pais="México", fecha_nacimiento=datetime(1988, 11, 23), genero="Femenino", eventos=evento2)
         atleta3 = Atleta(nombre="Pedro Rodríguez", pais="Argentina", fecha_nacimiento=datetime(1995, 3, 30), genero="Masculino", eventos=evento1, imagen="https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg")

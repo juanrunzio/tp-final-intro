@@ -26,7 +26,8 @@ def atletas():
             fecha_nacimiento=datetime.strptime(
                 data['fecha_nacimiento'], '%Y-%m-%d'),
             genero=data['genero'],
-            evento_id=data['evento_id']
+            evento_id=data['evento_id'],
+            imagen=data['imagen']
         )
         db.session.add(nuevo_atleta)
         db.session.commit()
@@ -57,6 +58,8 @@ def atleta(id):
         atleta.fecha_nacimiento = datetime.strptime(
             data['fecha_nacimiento'], '%Y-%m-%d')
         atleta.genero = data['genero']
+        atleta.evento_id = data['evento_id']
+        atleta.imagen = data['imagen']
         db.session.commit()
         return jsonify({'message': 'Atleta actualizado exitosamente'})
 
@@ -110,7 +113,8 @@ def evento(id):
         db.session.delete(evento)
         db.session.commit()
         return jsonify({'message': 'Evento eliminado exitosamente'}), 200
-    
+
+
 @app.route('/paris-2024')
 def pagina_oficial():
     atletas = Atleta.query.all()

@@ -84,6 +84,7 @@ th {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  justify-content: space-around;
 }
 
 .card {
@@ -96,6 +97,8 @@ th {
 }
 
 .card img {
+  width: 200px;
+  height: 260px;
   max-width: 100%;
   border-radius: 8px 8px 0 0;
 }
@@ -135,4 +138,14 @@ th {
 #editar-evento-form {
   display: flex;
   flex-direction: column;
+}
+
+.logo-paris {
+  display: flex;
+  justify-content: center;
+}
+
+.logo-paris > img {
+  width: 400px;
+  height: auto;
 }

@@ -6,6 +6,7 @@ function agregarAtleta(event) {
     fecha_nacimiento: document.getElementById("fecha_nacimiento").value,
     genero: document.getElementById("genero").value,
     evento_id: document.getElementById("evento").value,
+    imagen: document.getElementById("imagen").value,
   };
 
   fetch("/atletas", {
