@@ -25,5 +25,5 @@ export FLASK_APP=app.py
 #Opcional -> Modo de depuracion para ver errores detallados y tener recarga automática:
 export FLASK_ENV=development
 
-flask run
+flask run --debug
 ```
