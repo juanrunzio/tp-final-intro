@@ -214,3 +214,44 @@ if (document.getElementById("modal-editar-evento")) {
     .getElementById("editar-evento-form")
     .addEventListener("submit", editarEvento);
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.location.pathname === "/paris-2024") {
+    var nav = document.querySelector("nav");
+    nav.style.backgroundImage = "url('static/img/d02.svg')";
+    nav.style.backgroundRepeat = "no-repeat";
+  }
+});
+
+const fechaCuentaRegresiva = new Date("July 26, 2024 00:00:00").getTime();
+
+let x = setInterval(function () {
+  let actual = new Date().getTime();
+  let distancia = fechaCuentaRegresiva - actual;
+
+  let dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+  let horas = Math.floor(
+    (distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  let minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+  let segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+  document.getElementById("dias").textContent = dias
+    .toString()
+    .padStart(2, "0");
+  document.getElementById("horas").textContent = horas
+    .toString()
+    .padStart(2, "0");
+  document.getElementById("minutos").textContent = minutos
+    .toString()
+    .padStart(2, "0");
+  document.getElementById("segundos").textContent = segundos
+    .toString()
+    .padStart(2, "0");
+
+  if (distancia < 0) {
+    clearInterval(countdownInterval);
+    document.querySelector(".countdown-container").innerHTML =
+      "<h2>Llego el dia</h2>";
+  }
+});

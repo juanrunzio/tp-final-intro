@@ -1,4 +1,36 @@
 {% extends "base.html" %} {% block content %}
 <h1>Bienvenido a la Gestión de Atletas y Eventos para los Juegos Olímpicos</h1>
-<p>Utiliza la navegación para gestionar atletas y eventos.</p>
+<p>
+  Utiliza la navegación para gestionar <a href="/atletas">atletas</a> y
+  <a href="/eventos">eventos</a>.
+</p>
+<div class="outer-ctn">
+  <div id="countdown">
+    <p>
+      <strong id="title">Juegos Olimpicos Paris 2024</strong> - 26 de Julio - 11
+      de Agosto, 2024
+    </p>
+    <div class="countdown-container">
+      <div class="countdown-item">
+        <span id="dias" class="countdown-value">00</span>
+        <span class="countdown-label">Dias</span>
+      </div>
+      <span class="countdown-separator">:</span>
+      <div class="countdown-item">
+        <span id="horas" class="countdown-value">00</span>
+        <span class="countdown-label">Hrs</span>
+      </div>
+      <span class="countdown-separator">:</span>
+      <div class="countdown-item">
+        <span id="minutos" class="countdown-value">00</span>
+        <span class="countdown-label">Min</span>
+      </div>
+      <span class="countdown-separator">:</span>
+      <div class="countdown-item">
+        <span id="segundos" class="countdown-value">00</span>
+        <span class="countdown-label">Seg</span>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
