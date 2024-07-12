@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-from models import db, Atleta, Evento
+from models import db, Atleta, Evento, Deportes
 from datetime import datetime
 
 app = Flask(__name__)
@@ -35,7 +35,8 @@ def atletas():
 
     atletas = Atleta.query.all()
     eventos = Evento.query.all()
-    return render_template('atletas.html', atletas=atletas, eventos=eventos)
+    deportes = Deportes.query.all()
+    return render_template('atletas.html', atletas=atletas, eventos=eventos, deportes=deportes)
 
 
 @app.route('/atletas/<int:id>', methods=['GET', 'PUT', 'DELETE'])
@@ -48,7 +49,10 @@ def atleta(id):
             'nombre': atleta.nombre,
             'pais': atleta.pais,
             'fecha_nacimiento': atleta.fecha_nacimiento.strftime('%Y-%m-%d'),
-            'genero': atleta.genero
+            'genero': atleta.genero,
+            'imagen': atleta.imagen,
+            'evento_id': atleta.evento_id,
+            'deporte_id': atleta.deporte_id,
         })
 
     elif request.method == 'PUT':
@@ -58,6 +62,7 @@ def atleta(id):
         atleta.fecha_nacimiento = datetime.strptime(
             data['fecha_nacimiento'], '%Y-%m-%d')
         atleta.genero = data['genero']
+        atleta.deporte_id = data['deporte_id']
         atleta.evento_id = data['evento_id']
         atleta.imagen = data['imagen']
         db.session.commit()
@@ -84,7 +89,13 @@ def eventos():
         return jsonify({'message': 'Evento creado exitosamente'}), 201
 
     eventos = Evento.query.all()
-    return render_template('eventos.html', eventos=eventos)
+    deportes = Deportes.query.all()
+    return render_template('eventos.html', eventos=eventos, deportes=deportes)
+
+@app.route('/eventos_por_deporte/<int:deporte_id>')
+def get_eventos(deporte_id):
+    eventos = Evento.query.filter_by(deporte_id=deporte_id).all()
+    return jsonify([{'id': e.id, 'nombre': e.nombre} for e in eventos])
 
 
 @app.route('/eventos/<int:id>', methods=['GET', 'PUT', 'DELETE'])
@@ -95,17 +106,17 @@ def evento(id):
         return jsonify({
             'id': evento.id,
             'nombre': evento.nombre,
-            'deporte': evento.deporte,
             'fecha': evento.fecha.strftime('%Y-%m-%d'),
-            'lugar': evento.lugar
+            'lugar': evento.lugar,
+            'deporte_id': evento.deporte_id,
         })
 
     elif request.method == 'PUT':
         data = request.json
         evento.nombre = data['nombre'],
-        evento.deporte = data['deporte'],
         evento.fecha = datetime.strptime(data['fecha'], '%Y-%m-%d'),
         evento.lugar = data['lugar'],
+        evento.deporte_id = data['deporte_id']
         db.session.commit()
         return jsonify({'message': 'Evento actualizado exitosamente'})
 
@@ -119,7 +130,8 @@ def evento(id):
 def pagina_oficial():
     atletas = Atleta.query.all()
     eventos = Evento.query.all()
-    return render_template('paris-2024.html', atletas=atletas, eventos=eventos)
+    deportes = Deportes.query.all()
+    return render_template('paris-2024.html', atletas=atletas, eventos=eventos, deportes=deportes)
 
 
 if __name__ == '__main__':
