@@ -16,17 +16,41 @@
   font-weight: bold;
 }
 
+@font-face {
+  font-family: "Paris2024";
+  src: url(../fonts/Paris2024.woff) format("woff");
+}
+
 body {
-  font-family: "OlympicSerif", Arial, sans-serif;
+  font-family: "Paris2024", "OlympicSerif", Arial, sans-serif;
   line-height: 1.6;
   margin: 0;
   padding: 0;
+}
+
+.bg-div {
+  background-image: url("https://img.olympics.com/images/image/private/t_16-9_1920/f_auto/primary/qhrykxhykh2nnqvxmplo");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+}
+
+h1 {
+  padding-top: 20px;
+  padding-left: 20px;
+  margin-top: 0;
+}
+
+p {
+  padding-left: 20px;
 }
 
 nav {
   background-image: url(../img/d01.svg);
   background-position: center bottom;
   background-size: cover;
+  background-repeat: no-repeat;
   background-color: #333;
   color: #fff;
   padding: 0.5rem;
@@ -37,6 +61,7 @@ nav ul {
   display: flex;
   align-items: center;
   margin: 0px;
+  font-size: 20px;
 }
 
 a {
@@ -56,12 +81,9 @@ nav ul li a {
   text-decoration: none;
 }
 
-main {
-  padding: 2rem;
-}
-
 form {
   margin-bottom: 2rem;
+  margin-left: 20px;
 }
 
 input,
@@ -69,12 +91,14 @@ select,
 button {
   margin-bottom: 0.5rem;
   padding: 0.5rem;
-  font-family: "OlympicSerif", Arial, sans-serif;
+  font-family: "Paris2024", "OlympicSerif", Arial, sans-serif;
+  font-size: 16px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-left: 20px;
 }
 
 th,
@@ -82,6 +106,7 @@ td {
   border: 1px solid #ddd;
   padding: 0.5rem;
   text-align: left;
+  margin-left: 20px;
 }
 
 th {
@@ -93,6 +118,7 @@ th {
   flex-wrap: wrap;
   gap: 16px;
   justify-content: space-around;
+  padding: 0px 20px 20px 20px;
 }
 
 .card {
@@ -102,6 +128,12 @@ th {
   padding: 16px;
   width: 200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card > p {
+  padding: 0;
+  margin-bottom: 0.5px;
+  margin-top: 0.5px;
 }
 
 .card img {
@@ -175,7 +207,8 @@ th {
   border-radius: 8px;
   border: 1px solid rgb(0, 56, 83);
   margin-top: 1rem;
-  font-family: "OlympicSerif", Arial, sans-serif;
+  font-family: "Paris2024", "OlympicSerif", Arial, sans-serif;
+  background-color: rgb(245, 245, 220, 0.6);
 }
 
 .countdown-container {
@@ -195,14 +228,45 @@ th {
 }
 .countdown-value {
   font-size: 36px;
-  font-family: "OlympicSerif";
+  font-family: "Paris2024", "OlympicSerif";
 }
 .countdown-label {
   font-size: 14px;
-  font-family: "OlympicSerif";
+  font-family: "Paris2024", "OlympicSerif";
 }
 .countdown-separator {
   font-size: 36px;
   margin: 0 5px;
   align-self: flex-start;
+}
+
+.card-container-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.card-horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-horizontal img {
+  width: 80px;
+  height: auto;
+  margin-right: 24px;
+}
+
+.card-horizontal h3 {
+  margin: 0;
+  font-size: 1.25rem;
 }

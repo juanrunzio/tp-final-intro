@@ -35,6 +35,9 @@ function editarAtleta(event) {
     pais: document.getElementById("editar-pais").value,
     fecha_nacimiento: document.getElementById("editar-fecha_nacimiento").value,
     genero: document.getElementById("editar-genero").value,
+    deporte_id: document.getElementById("editar-deporte").value,
+    evento_id: document.getElementById("editar-evento").value,
+    imagen: document.getElementById("editar-imagen").value,
   };
 
   console.log(formData);
@@ -124,7 +127,7 @@ function editarEvento(event) {
   const formData = {
     id: document.getElementById("editar-id-evento").value,
     nombre: document.getElementById("editar-nombre").value,
-    deporte: document.getElementById("editar-deporte").value,
+    deporte_id: document.getElementById("editar-deporte").value,
     fecha: document.getElementById("editar-fecha").value,
     lugar: document.getElementById("editar-lugar").value,
   };
@@ -175,6 +178,9 @@ function abrirModalEditarAtleta(id) {
       document.getElementById("editar-fecha_nacimiento").value =
         data.fecha_nacimiento;
       document.getElementById("editar-genero").value = data.genero;
+      document.getElementById("editar-imagen").value = data.imagen;
+      document.getElementById("editar-evento").value = data.evento_id;
+      document.getElementById("editar-deporte").value = data.deporte_id;
     });
 
   document.getElementById("modal-editar-atleta").style.display = "block";
@@ -191,9 +197,9 @@ function abrirModalEditarEvento(id) {
       console.log(data);
       document.getElementById("editar-id-evento").value = data.id;
       document.getElementById("editar-nombre").value = data.nombre;
-      document.getElementById("editar-deporte").value = data.deporte;
       document.getElementById("editar-fecha").value = data.fecha;
       document.getElementById("editar-lugar").value = data.lugar;
+      document.getElementById("editar-deporte").value = data.deporte_id;
     });
 
   document.getElementById("modal-editar-evento").style.display = "block";
@@ -219,39 +225,67 @@ document.addEventListener("DOMContentLoaded", function () {
   if (window.location.pathname === "/paris-2024") {
     var nav = document.querySelector("nav");
     nav.style.backgroundImage = "url('static/img/d02.svg')";
-    nav.style.backgroundRepeat = "no-repeat";
   }
 });
 
-const fechaCuentaRegresiva = new Date("July 26, 2024 00:00:00").getTime();
+if (window.location.pathname === "/") {
+  const fechaCuentaRegresiva = new Date("July 26, 2024 00:00:00").getTime();
 
-let x = setInterval(function () {
-  let actual = new Date().getTime();
-  let distancia = fechaCuentaRegresiva - actual;
+  let x = setInterval(function () {
+    let actual = new Date().getTime();
+    let distancia = fechaCuentaRegresiva - actual;
 
-  let dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
-  let horas = Math.floor(
-    (distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
-  let minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
-  let segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+    let dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+    let horas = Math.floor(
+      (distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    let minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+    let segundos = Math.floor((distancia % (1000 * 60)) / 1000);
 
-  document.getElementById("dias").textContent = dias
-    .toString()
-    .padStart(2, "0");
-  document.getElementById("horas").textContent = horas
-    .toString()
-    .padStart(2, "0");
-  document.getElementById("minutos").textContent = minutos
-    .toString()
-    .padStart(2, "0");
-  document.getElementById("segundos").textContent = segundos
-    .toString()
-    .padStart(2, "0");
+    document.getElementById("dias").textContent = dias
+      .toString()
+      .padStart(2, "0");
+    document.getElementById("horas").textContent = horas
+      .toString()
+      .padStart(2, "0");
+    document.getElementById("minutos").textContent = minutos
+      .toString()
+      .padStart(2, "0");
+    document.getElementById("segundos").textContent = segundos
+      .toString()
+      .padStart(2, "0");
 
-  if (distancia < 0) {
-    clearInterval(countdownInterval);
-    document.querySelector(".countdown-container").innerHTML =
-      "<h2>Llego el dia</h2>";
-  }
+    if (distancia < 0) {
+      clearInterval(countdownInterval);
+      document.querySelector(".countdown-container").innerHTML =
+        "<h2>Llego el dia</h2>";
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const deporteSelect = document.getElementById('deporte');
+  const eventoSelect = document.getElementById('evento');
+
+  deporteSelect.addEventListener('change', function() {
+      const deporteId = this.value;
+      if (deporteId) {
+          fetch(`/eventos_por_deporte/${deporteId}`)
+              .then(response => response.json())
+              .then(data => {
+                  eventoSelect.innerHTML = '<option value="">Selecciona evento</option>';
+                  data.forEach(evento => {
+                      const option = document.createElement('option');
+                      option.value = evento.id;
+                      option.textContent = evento.nombre;
+                      eventoSelect.appendChild(option);
+                  });
+                  eventoSelect.disabled = false;
+              })
+              .catch(error => console.error('Error:', error));
+      } else {
+          eventoSelect.innerHTML = '<option value="">Selecciona evento</option>';
+          eventoSelect.disabled = true;
+      }
+  });
 });
