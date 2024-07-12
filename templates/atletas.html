@@ -10,12 +10,15 @@
     <option value="Masculino">Masculino</option>
     <option value="Femenino">Femenino</option>
   </select>
-  <select id="evento" required>
-    <option value="">Selecciona evento</option>
-    {% for evento in eventos %}
-    <option value="{{ evento.id }}">{{ evento.nombre }}</option>
+  <select id="deporte" required>
+    <option value="">Selecciona deporte</option>
+    {% for deporte in deportes %}
+    <option value="{{ deporte.id }}">{{ deporte.nombre }}</option>
     {% endfor %}
-  </select>
+</select>
+<select id="evento" required>
+    <option value="">Selecciona evento</option>
+</select>
   <input type="text" id="imagen" placeholder="URL Imagen" />
   <button type="submit">Agregar Atleta</button>
 </form>
@@ -66,13 +69,19 @@
         <option value="Masculino">Masculino</option>
         <option value="Femenino">Femenino</option>
       </select>
-      <select id="evento" required>
+      <select id="editar-deporte" required>
+        <option value="">Selecciona deporte</option>
+        {% for deporte in deportes %}
+        <option value="{{ deporte.id }}">{{ deporte.nombre }}</option>
+        {% endfor %}
+    </select>
+      <select id="editar-evento" required>
         <option value="">Selecciona evento</option>
         {% for evento in eventos %}
         <option value="{{ evento.id }}">{{ evento.nombre }}</option>
         {% endfor %}
       </select>
-      <input type="text" id="imagen" placeholder="URL Imagen" />
+      <input type="text" id="editar-imagen" placeholder="URL Imagen" />
       <button type="submit">Guardar cambios</button>
       <button type="button" onclick="cerrarModalEditarAtleta()">
         Cancelar
