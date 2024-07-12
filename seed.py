@@ -1,5 +1,5 @@
 from app import app, db
-from models import Atleta, Evento
+from models import Atleta, Evento, Deportes
 from datetime import datetime, timedelta
 
 def seed_database():
@@ -9,16 +9,38 @@ def seed_database():
         db.create_all()
 
         
-        evento_futbol = Evento(nombre="Fútbol masculino", deporte="Fútbol", fecha=datetime(2024, 7, 26), lugar="París")
-        evento1 = Evento(nombre="100m lisos", deporte="Atletismo", fecha=datetime(2023, 7, 24), lugar="Estadio Olímpico")
-        evento2 = Evento(nombre="Maratón", deporte="Atletismo", fecha=datetime(2023, 8, 5), lugar="Ciudad")
+        deportes = [{'nombre': "Atletismo", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/ATH_small.svg"}, {'nombre': "Bádminton", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/BDM_small.svg"}, {'nombre': "Baloncesto", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/BKB_small.svg"}, {'nombre': "Balonmano", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/HBL_small.svg"}, {'nombre': "Boxeo", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/BOX_small.svg"}, {'nombre': "Ciclismo", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/CRD_small.svg"},{'nombre': "Esgrima", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/FEN_small.svg"} ,{'nombre': "Fútbol", 'logo': "	https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/FBL_small.svg"}, {'nombre': "Gimnasia", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/GAR_small.svg"},{'nombre': "Golf", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/GLF_small.svg"} , {'nombre': "Halterofilia", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/WLF_small.svg"}, {'nombre': "Hockey", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/HOC_small.svg"}, {'nombre': "Judo", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/JUD_small.svg"}, {'nombre': "Natación", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/SWM_small.svg"}, {'nombre': "Pentatlón", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/MPN_small.svg"}, {'nombre': "Remo", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/ROW_small.svg"}, {'nombre': "Rugby", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/RU7_small.svg"}, {'nombre': "Tenis", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/TEN_small.svg"}, {'nombre': "Tiro con arco", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/ARC_small.svg"} ,{'nombre': "Vela", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/SAL_small.svg"}, {'nombre': "Voleibol", 'logo': "https://gstatic.olympics.com/s1/t_original/static/light/pictograms-paris-2024/olympics/VVO_small.svg"}] 
+
+        for deporte in deportes:
+            nuevo_deporte = Deportes(
+                nombre=deporte['nombre'],
+                logo=deporte['logo']
+            )
+            db.session.add(nuevo_deporte)
+        db.session.commit()
+
+        
+        evento_futbol = Evento(nombre="Fútbol masculino", fecha=datetime(2024, 7, 26), lugar="París")
+        evento1 = Evento(nombre="100m lisos", fecha=datetime(2023, 7, 24), lugar="Estadio Olímpico")
+        evento2 = Evento(nombre="Maratón", fecha=datetime(2023, 8, 5), lugar="Ciudad")
+
+        futbol_deporte = Deportes.query.filter_by(nombre="Fútbol").first()
+        atletismo_deporte = Deportes.query.filter_by(nombre="Atletismo").first()
+
+        evento_futbol.deportes = futbol_deporte
+        evento1.deportes = atletismo_deporte
+        evento2.deportes = atletismo_deporte
 
         db.session.add_all([evento1, evento2, evento_futbol])
         db.session.commit()
 
         atleta1 = Atleta(nombre="Juan Pérez", pais="España", fecha_nacimiento=datetime(1990, 5, 14), genero="Masculino", eventos=evento1)
         atleta2 = Atleta(nombre="Ana Gómez", pais="México", fecha_nacimiento=datetime(1988, 11, 23), genero="Femenino", eventos=evento2)
-        atleta3 = Atleta(nombre="Pedro Rodríguez", pais="Argentina", fecha_nacimiento=datetime(1995, 3, 30), genero="Masculino", eventos=evento1, imagen="https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg")
+        atleta3 = Atleta(nombre="Lionel Andres Messi", pais="Argentina", fecha_nacimiento=datetime(1986, 6, 24), genero="Masculino", eventos=evento_futbol, imagen="https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg")
+
+        atleta1.deportes = atletismo_deporte
+        atleta2.deportes = atletismo_deporte
+        atleta3.deportes = futbol_deporte
 
         jugadores = [
         {"nombre": "Thiago Almada", "fecha_nacimiento": datetime(2001, 4, 26), "imagen": "https://img.a.transfermarkt.technology/portrait/big/576028-1709363616.jpg?lm=1"},
@@ -41,7 +63,6 @@ def seed_database():
         {"nombre": "Lucas Beltrán", "fecha_nacimiento": datetime(2001, 3, 29), "imagen": "https://img.a.transfermarkt.technology/portrait/big/628366-1692881138.jpg?lm=1"}
         ]
 
-        # Crea los atletas
         for jugador in jugadores:
             atleta = Atleta(
                 nombre=jugador["nombre"],
@@ -49,12 +70,13 @@ def seed_database():
                 fecha_nacimiento=jugador["fecha_nacimiento"],
                 genero="Masculino",
                 eventos=evento_futbol,
-                imagen=jugador["imagen"]
+                imagen=jugador["imagen"],
+                deportes=futbol_deporte
             )
             db.session.add(atleta)
 
         db.session.add_all([atleta1, atleta2, atleta3])
-        db.session.commit()
+        db.session.commit()        
 
         print("Base de datos poblada con éxito!")
 
