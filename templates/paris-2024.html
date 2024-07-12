@@ -4,23 +4,41 @@
   <img src="../static/img/paris2024.jpg" alt="Paris 2024" />
 </div>
 
+<h1>Deportes</h1>
+<div class="card-container-horizontal">
+  {% for deporte in deportes %}
+  <div class="card-horizontal">
+    <img src="{{ deporte.logo }}" alt="Logo de {{ deporte.nombre }}" />
+    <h3>{{ deporte.nombre }}</h3>
+  </div>
+  {% endfor %}
+</div>
+
 <h1>Atletas</h1>
 <div class="card-container">
   {% for atleta in atletas %}
   <div class="card">
     <img src="{{ atleta.imagen }}" />
     <h3>{{ atleta.nombre }}</h3>
+    {% for deporte in deportes %} {% if deporte.id == atleta.deporte_id %}
+    <p>Deporte: {{ deporte.nombre }}</p>
+    {% endif %} {% endfor %}
     <p>País: {{ atleta.pais }}</p>
   </div>
   {% endfor %}
 </div>
 
 <h1>Eventos</h1>
-<div class="card-container">
+<div class="card-container-horizontal">
   {% for evento in eventos %}
-  <div class="card">
-    <h3>{{ evento.nombre }}</h3>
-    <p>Fecha: {{ evento.fecha.strftime('%d-%m-%Y') }}</p>
+  <div class="card-horizontal">
+    {% for deporte in deportes %} {% if deporte.id == evento.deporte_id %}
+    <img src="{{ deporte.logo }}" />
+    {% endif %} {% endfor %}
+    <div class="card">
+      <h3>{{ evento.nombre }}</h3>
+      <p>Fecha: {{ evento.fecha.strftime('%d-%m-%Y') }}</p>
+    </div>
   </div>
   {% endfor %}
 </div>
