@@ -3,7 +3,12 @@
 
 <form id="evento-form">
   <input type="text" id="nombre" placeholder="Nombre del evento" required />
-  <input type="text" id="deporte" placeholder="Deporte" required />
+  <select id="deporte" required>
+    <option value="">Selecciona deporte</option>
+    {% for deporte in deportes %}
+    <option value="{{ deporte.id }}">{{ deporte.nombre }}</option>
+    {% endfor %}
+  </select>
   <input type="date" id="fecha" required />
   <input type="text" id="lugar" placeholder="Lugar" required />
   <button type="submit">Agregar Evento</button>
@@ -23,7 +28,9 @@
     {% for evento in eventos %}
     <tr>
       <td>{{ evento.nombre }}</td>
-      <td>{{ evento.deporte }}</td>
+      {% for deporte in deportes %} {% if evento.deporte_id == deporte.id %}
+      <td>{{ deporte.nombre }}</td>
+      {% endif %} {% endfor %}
       <td>{{ evento.fecha.strftime('%Y-%m-%d ') }}</td>
       <td>{{ evento.lugar }}</td>
       <td>
@@ -43,7 +50,12 @@
     <form id="editar-evento-form">
       <input type="hidden" id="editar-id-evento" />
       <input type="text" id="editar-nombre" placeholder="Nombre" required />
-      <input type="text" id="editar-deporte" placeholder="Deporte" required />
+      <select id="editar-deporte" required>
+        <option value="">Selecciona deporte</option>
+        {% for deporte in deportes %}
+        <option value="{{ deporte.id }}">{{ deporte.nombre }}</option>
+        {% endfor %}
+      </select>
       <input type="date" id="editar-fecha" required />
       <input type="text" id="editar-lugar" placeholder="Lugar" required />
       <button type="submit">Guardar cambios</button>
