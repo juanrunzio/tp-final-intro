@@ -10,12 +10,11 @@ class Atleta(db.Model):
     pais = db.Column(db.String(50), nullable=False)
     fecha_nacimiento = db.Column(db.Date, nullable=False)
     genero = db.Column(db.String(10), nullable=False)
-    evento_id = db.Column(db.Integer, db.ForeignKey(
-        'evento.id'), nullable=False)
+    evento_id = db.Column(db.Integer, db.ForeignKey('evento.id'), nullable=False)
     deporte_id = db.Column(db.Integer, db.ForeignKey('deportes.id'), nullable=False)
     imagen = db.Column(db.String(500), nullable=True)
-    eventos = db.relationship('Evento', backref='atleta', lazy=True)
-    deportes = db.relationship('Deportes', backref='atleta', lazy=True)
+    eventos = db.relationship('Evento', backref='atleta', lazy='select')
+    deportes = db.relationship('Deportes', backref='atleta', lazy='select')
 
 class Deportes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,6 +27,6 @@ class Evento(db.Model):
     fecha = db.Column(db.DateTime, nullable=False)
     lugar = db.Column(db.String(100), nullable=False)
     deporte_id = db.Column(db.Integer, db.ForeignKey('deportes.id'), nullable=False)
-    deportes = db.relationship('Deportes', backref='evento', lazy=True)
+    deportes = db.relationship('Deportes', backref='evento', lazy='select')
 
 

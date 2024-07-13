@@ -15,10 +15,10 @@
     {% for deporte in deportes %}
     <option value="{{ deporte.id }}">{{ deporte.nombre }}</option>
     {% endfor %}
-</select>
-<select id="evento" required>
+  </select>
+  <select id="evento" required>
     <option value="">Selecciona evento</option>
-</select>
+  </select>
   <input type="text" id="imagen" placeholder="URL Imagen" />
   <button type="submit">Agregar Atleta</button>
 </form>
@@ -74,7 +74,7 @@
         {% for deporte in deportes %}
         <option value="{{ deporte.id }}">{{ deporte.nombre }}</option>
         {% endfor %}
-    </select>
+      </select>
       <select id="editar-evento" required>
         <option value="">Selecciona evento</option>
         {% for evento in eventos %}

@@ -7,6 +7,7 @@ function agregarAtleta(event) {
     genero: document.getElementById("genero").value,
     evento_id: document.getElementById("evento").value,
     imagen: document.getElementById("imagen").value,
+    deporte: document.getElementById("deporte").value,
   };
 
   fetch("/atletas", {
@@ -49,12 +50,7 @@ function editarAtleta(event) {
     },
     body: JSON.stringify(formData),
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
       console.log("Success:", data);
       location.reload();
@@ -141,12 +137,7 @@ function editarEvento(event) {
     },
     body: JSON.stringify(formData),
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
       console.log("Success:", data);
       location.reload();
@@ -167,11 +158,11 @@ if (document.getElementById("evento-form")) {
     .getElementById("evento-form")
     .addEventListener("submit", agregarEvento);
 }
+
 function abrirModalEditarAtleta(id) {
   fetch(`/atletas/${id}`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       document.getElementById("editar-id-atleta").value = data.id;
       document.getElementById("editar-nombre").value = data.nombre;
       document.getElementById("editar-pais").value = data.pais;
@@ -194,7 +185,6 @@ function abrirModalEditarEvento(id) {
   fetch(`/eventos/${id}`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       document.getElementById("editar-id-evento").value = data.id;
       document.getElementById("editar-nombre").value = data.nombre;
       document.getElementById("editar-fecha").value = data.fecha;
@@ -256,36 +246,69 @@ if (window.location.pathname === "/") {
       .padStart(2, "0");
 
     if (distancia < 0) {
-      clearInterval(countdownInterval);
+      clearInterval(x);
       document.querySelector(".countdown-container").innerHTML =
-        "<h2>Llego el dia</h2>";
+        "<h2 style=font-family:Paris2024 >Llego el dia</h2>";
     }
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  const deporteSelect = document.getElementById('deporte');
-  const eventoSelect = document.getElementById('evento');
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.location.pathname === "/atletas") {
+    const deporteSelect = document.getElementById("deporte");
+    const eventoSelect = document.getElementById("evento");
 
-  deporteSelect.addEventListener('change', function() {
+    deporteSelect.addEventListener("change", function () {
       const deporteId = this.value;
       if (deporteId) {
-          fetch(`/eventos_por_deporte/${deporteId}`)
-              .then(response => response.json())
-              .then(data => {
-                  eventoSelect.innerHTML = '<option value="">Selecciona evento</option>';
-                  data.forEach(evento => {
-                      const option = document.createElement('option');
-                      option.value = evento.id;
-                      option.textContent = evento.nombre;
-                      eventoSelect.appendChild(option);
-                  });
-                  eventoSelect.disabled = false;
-              })
-              .catch(error => console.error('Error:', error));
+        fetch(`/eventos_por_deporte/${deporteId}`)
+          .then((response) => response.json())
+          .then((data) => {
+            eventoSelect.innerHTML =
+              '<option value="">Selecciona evento</option>';
+            data.forEach((evento) => {
+              const option = document.createElement("option");
+              option.value = evento.id;
+              option.textContent = evento.nombre;
+              eventoSelect.appendChild(option);
+            });
+            eventoSelect.disabled = false;
+          })
+          .catch((error) => console.error("Error:", error));
       } else {
-          eventoSelect.innerHTML = '<option value="">Selecciona evento</option>';
-          eventoSelect.disabled = true;
+        eventoSelect.innerHTML = '<option value="">Selecciona evento</option>';
+        eventoSelect.disabled = true;
       }
-  });
+    });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.location.pathname === "/atletas") {
+    const deporteSelect = document.getElementById("editar-deporte");
+    const eventoSelect = document.getElementById("editar-evento");
+
+    deporteSelect.addEventListener("change", function () {
+      const deporteId = this.value;
+      if (deporteId) {
+        fetch(`/eventos_por_deporte/${deporteId}`)
+          .then((response) => response.json())
+          .then((data) => {
+            eventoSelect.innerHTML =
+              '<option value="">Selecciona evento</option>';
+            data.forEach((evento) => {
+              const option = document.createElement("option");
+              option.value = evento.id;
+              option.textContent = evento.nombre;
+              eventoSelect.appendChild(option);
+            });
+            eventoSelect.disabled = false;
+          })
+          .catch((error) => console.error("Error:", error));
+      } else {
+        eventoSelect.innerHTML = '<option value="">Selecciona evento</option>';
+        eventoSelect.disabled = true;
+      }
+    });
+  }
 });

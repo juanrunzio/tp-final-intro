@@ -121,6 +121,25 @@ th {
   padding: 0px 20px 20px 20px;
 }
 
+.card-horizontal:hover {
+  background-color: #1c1c1c;
+  color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+  transition: box-shadow 0.3s ease, transform 0.3s ease,
+    background-color 0.3s ease, color 0.3s ease;
+}
+
+.card-horizontal:hover > img {
+  filter: brightness(0) invert(1);
+}
+
+.card-horizontal:hover > .card {
+  background-color: #1c1c1c;
+  color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .card {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -173,11 +192,13 @@ th {
 #editar-atleta-form {
   display: flex;
   flex-direction: column;
+  margin-left: 0px;
 }
 
 #editar-evento-form {
   display: flex;
   flex-direction: column;
+  margin-left: 0px;
 }
 
 .logo-paris {

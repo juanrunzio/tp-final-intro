@@ -27,7 +27,8 @@ def atletas():
                 data['fecha_nacimiento'], '%Y-%m-%d'),
             genero=data['genero'],
             evento_id=data['evento_id'],
-            imagen=data['imagen']
+            imagen=data['imagen'],
+            deporte_id=data['deporte']
         )
         db.session.add(nuevo_atleta)
         db.session.commit()
@@ -80,7 +81,7 @@ def eventos():
         data = request.json
         nuevo_evento = Evento(
             nombre=data['nombre'],
-            deporte=data['deporte'],
+            deporte_id=data['deporte'],
             fecha=datetime.strptime(data['fecha'], '%Y-%m-%d'),
             lugar=data['lugar'],
         )
@@ -91,6 +92,7 @@ def eventos():
     eventos = Evento.query.all()
     deportes = Deportes.query.all()
     return render_template('eventos.html', eventos=eventos, deportes=deportes)
+
 
 @app.route('/eventos_por_deporte/<int:deporte_id>')
 def get_eventos(deporte_id):
