@@ -1,5 +1,10 @@
 # tp-final-intro
 
+### GRUPO MATEANDO - ALUMNOS
+
+Juan Bautista Oviedo Runzio - 110164
+Rodrigo Ladaga - 100188
+
 ### MacOS
 
 ```bash
