@@ -89,7 +89,7 @@ def eventos():
         db.session.commit()
         return jsonify({'message': 'Evento creado exitosamente'}), 201
 
-    eventos = Evento.query.all()
+    eventos = Evento.query.order_by(Evento.fecha).all()
     deportes = Deportes.query.all()
     return render_template('eventos.html', eventos=eventos, deportes=deportes)
 
@@ -131,7 +131,7 @@ def evento(id):
 @app.route('/paris-2024')
 def pagina_oficial():
     atletas = Atleta.query.all()
-    eventos = Evento.query.all()
+    eventos = Evento.query.order_by(Evento.fecha).all()
     deportes = Deportes.query.all()
     return render_template('paris-2024.html', atletas=atletas, eventos=eventos, deportes=deportes)
 
